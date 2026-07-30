@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "about": "हमारे बारे में",
+    "howItWorks": "कैसे काम करता है",
+    "forCandidates": "उम्मीदवारों के लिए",
+    "forRecruiters": "भर्तीकर्ताओं के लिए",
+    "dashboard": "डैशबोर्ड",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "login": "लॉगिन",
+    "register": "रजिस्टर",
+    "logout": "लॉगआउट"
+  },
+  "landing": {
+    "heroTitle": "हर क्षमता के लिए समावेशी नौकरियाँ",
+    "heroSubtitle": "भारत भर में विकलांग व्यक्तियों को सत्यापित, सुलभ रोजगार के अवसरों से जोड़ना।",
+    "getStarted": "शुरू करें",
+    "browseJobs": "नौकरियाँ खोजें"
+  },
+  "candidate": {
+    "dashboard": "उम्मीदवार डैशबोर्ड",
+    "appliedJobs": "आवेदित नौकरियाँ",
+    "savedJobs": "सहेजी गई नौकरियाँ",
+    "searchJobs": "नौकरी खोजें",
+    "noApplications": "अभी तक कोई आवेदन नहीं।",
+    "viewDetails": "विवरण देखें",
+    "profile": "प्रोफ़ाइल",
+    "skills": "कौशल",
+    "resume": "रिज़्यूमे"
+  },
+  "recruiter": {
+    "dashboard": "भर्तीकर्ता डैशबोर्ड",
+    "postJob": "नौकरी पोस्ट करें",
+    "activeListings": "सक्रिय लिस्टिंग",
+    "totalApplicants": "कुल आवेदक",
+    "viewApplicants": "आवेदक देखें",
+    "shortlist": "शॉर्टलिस्ट",
+    "reject": "अस्वीकार",
+    "bulkShortlist": "चयनित शॉर्टलिस्ट करें",
+    "bulkReject": "चयनित अस्वीकार करें",
+    "selected": "{{count}} चयनित",
+    "selectAll": "सभी चुनें",
+    "deselectAll": "सभी अचयनित करें",
+    "scheduleInterview": "साक्षात्कार निर्धारित करें",
+    "reschedule": "पुनर्निर्धारित करें",
+    "exportCsv": "CSV डाउनलोड करें",
+    "applicants": "आवेदक",
+    "noApplicants": "इस पद के लिए अभी तक कोई आवेदक नहीं।"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "applied": "आवेदित",
+    "shortlisted": "शॉर्टलिस्ट",
+    "rejected": "अस्वीकृत",
+    "hired": "नियुक्त",
+    "viewResume": "रिज़्यूमे देखें",
+    "noResume": "कोई रिज़्यूमे अपलोड नहीं किया",
+    "coverLetter": "कवर लेटर",
+    "disability": "विकलांगता",
+    "email": "ईमेल",
+    "back": "वापस",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "confirm": "पुष्टि करें",
+    "language": "भाषा",
+    "english": "English",
+    "hindi": "हिन्दी"
+  },
+  "accessibility": {
+    "skipToContent": "मुख्य सामग्री पर जाएं",
+    "mainNavigation": "मुख्य नेविगेशन",
+    "toggleMenu": "नेविगेशन मेनू टॉगल करें",
+    "home": "AbelUp होम"
+  },
+  "footer": {
+    "tagline": "समावेशी रोजगार के अवसरों के माध्यम से विकलांग व्यक्तियों को सशक्त बनाना।",
+    "quickLinks": "त्वरित लिंक",
+    "legal": "कानूनी",
+    "contact": "संपर्क",
+    "privacy": "गोपनीयता नीति",
+    "accessibilityStatement": "सुगम्यता वक्तव्य",
+    "copyright": "© {{year}} AbelUp। सुगम्यता को ध्यान में रखकर बनाया गया।"
+  }
+}

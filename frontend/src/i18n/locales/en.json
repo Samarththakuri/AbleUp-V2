@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "about": "About",
+    "howItWorks": "How It Works",
+    "forCandidates": "For Candidates",
+    "forRecruiters": "For Recruiters",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "landing": {
+    "heroTitle": "Inclusive Jobs for Every Ability",
+    "heroSubtitle": "Connecting Persons with Disabilities to verified, accessible employment opportunities across India.",
+    "getStarted": "Get Started",
+    "browseJobs": "Browse Jobs"
+  },
+  "candidate": {
+    "dashboard": "Candidate Dashboard",
+    "appliedJobs": "Applied Jobs",
+    "savedJobs": "Saved Jobs",
+    "searchJobs": "Search Jobs",
+    "noApplications": "No applications yet.",
+    "viewDetails": "View Details",
+    "profile": "Profile",
+    "skills": "Skills",
+    "resume": "Resume"
+  },
+  "recruiter": {
+    "dashboard": "Recruiter Dashboard",
+    "postJob": "Post a Job",
+    "activeListings": "Active Listings",
+    "totalApplicants": "Total Applicants",
+    "viewApplicants": "View Applicants",
+    "shortlist": "Shortlist",
+    "reject": "Reject",
+    "bulkShortlist": "Shortlist Selected",
+    "bulkReject": "Reject Selected",
+    "selected": "{{count}} selected",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "scheduleInterview": "Schedule Interview",
+    "reschedule": "Reschedule",
+    "exportCsv": "Export CSV",
+    "applicants": "Applicants",
+    "noApplicants": "No applicants yet for this position."
+  },
+  "common": {
+    "loading": "Loading...",
+    "applied": "Applied",
+    "shortlisted": "Shortlisted",
+    "rejected": "Rejected",
+    "hired": "Hired",
+    "viewResume": "View Resume",
+    "noResume": "No resume uploaded",
+    "coverLetter": "Cover Letter",
+    "disability": "Disability",
+    "email": "Email",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "language": "Language",
+    "english": "English",
+    "hindi": "हिन्दी"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
+    "mainNavigation": "Main navigation",
+    "toggleMenu": "Toggle navigation menu",
+    "home": "AbelUp Home"
+  },
+  "footer": {
+    "tagline": "Empowering Persons with Disabilities through inclusive employment opportunities.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "accessibilityStatement": "Accessibility Statement",
+    "copyright": "© {{year}} AbelUp. Built with accessibility at its core."
+  }
+}
