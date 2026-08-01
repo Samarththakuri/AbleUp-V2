@@ -1,40 +1,37 @@
 import mongoose, { Schema } from "mongoose";
 import { baseSchemaOptions } from "./schemaOptions.js";
-
-/**
- * `appliedAt` is this model's createdAt under a domain name. Keeping the field
- * name means no query, sort or client changes; routing it through `timestamps`
- * means `updatedAt` finally maintains itself. It used to be a plain field with a
- * `Date.now` default, so it only ever held the creation time unless a writer
- * remembered to set it by hand — and shortlisting was the only path that did.
- */
 const applicationSchemaOptions = {
   ...baseSchemaOptions,
   timestamps: { createdAt: "appliedAt", updatedAt: "updatedAt" },
 };
 
-const ApplicationSchema = new Schema({
-  jobId: { type: Schema.Types.ObjectId, ref: "Job", required: true },
-  candidateId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  status: {
-    type: String,
-    enum: ["APPLIED", "SHORTLISTED", "REJECTED", "HIRED"],
-    default: "APPLIED",
+const ApplicationSchema = new Schema(
+  {
+    jobId: { type: Schema.Types.ObjectId, ref: "Job", required: true },
+    candidateId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    status: {
+      type: String,
+      enum: ["APPLIED", "SHORTLISTED", "REJECTED", "HIRED"],
+      default: "APPLIED",
+    },
+    shortlistReason: { type: String, trim: true, maxlength: 1000 },
+    shortlistedBy: { type: Schema.Types.ObjectId, ref: "User" },
+    coverLetter: { type: String, trim: true, maxlength: 5000 },
+    resumeUrl: String,
   },
-  shortlistReason: { type: String, trim: true, maxlength: 1000 },
-  shortlistedBy: { type: Schema.Types.ObjectId, ref: "User" },
-  coverLetter: { type: String, trim: true, maxlength: 5000 },
-  resumeUrl: String,
-}, applicationSchemaOptions);
+  applicationSchemaOptions,
+);
 
 //this virtual is added for api response and runs whenever mongoose does
 //solely done for the frontend becuase it relied on shortlisted value
-ApplicationSchema.virtual("shortlisted").get(function() {
+//this will return the json response with a shortlisted field as set true if status is shortlisted
+ApplicationSchema.virtual("shortlisted").get(function () {
   return this.status === "SHORTLISTED";
 });
 
 // One application per candidate per job. This unique index — not the
 // check-then-act guard in the controller — is what actually prevents doubles.
+//yaad haina ki index retrival ke saath update or insert pe bhi help karta hai
 ApplicationSchema.index({ jobId: 1, candidateId: 1 }, { unique: true });
 
 // "My applications", sorted newest first.

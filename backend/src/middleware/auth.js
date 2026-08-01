@@ -18,6 +18,7 @@ export const auth = async (req, res, next) => {
     // `select: false` on the schema, so they are excluded by default now.
     const user = await User.findById(decoded.id);
     if (!user) return res.status(401).json({ message: "User not found" });
+    //here added the user from mongodb to request object
     req.user = user;
     next(); //aage badhna hai to next function that is why
   } catch {

@@ -27,45 +27,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = env.PORT;
 
-/**
- * Must come before anything that reads req.ip — morgan's :remote-addr and
- * every rate limiter. See the TRUST_PROXY note in config/env.js for why this
- * is a hop count rather than `true`.
- */
 if (env.TRUST_PROXY > 0) app.set("trust proxy", env.TRUST_PROXY);
 
 app.use(helmet());
 
-/**
- * Successful health checks and static file hits are volume without signal.
- * The status test comes first on purpose: a 404 under /uploads or a 429 on
- * /api/health is exactly the line worth keeping.
- *
- * `req.path` here is the full path ("/api/health") because morgan is mounted
- * globally. Inside `app.use("/api/", ...)` below, Express strips the prefix and
- * the same request is "/health" — which is why the health route is hoisted
- * above the limiters rather than skipped by path.
- */
+//skips nosiy request
 const skipHttpLog = (req, res) => {
   if (res.statusCode >= 400) return false;
   return req.path === "/api/health" || req.path.startsWith("/uploads/");
 };
 
-/**
- * Above the rate limiters, and above cors(), by design. Morgan writes on the
- * response "finish" event, so its position decides what it *sees*: anything
- * that short-circuits above it is invisible. Below the limiters it would miss
- * every 429; below cors() it would miss every preflight, since cors() ends
- * OPTIONS without calling next().
- *
- * "tiny" rather than morgan's "dev" format: same information, without the ANSI
- * colour codes that would end up JSON-escaped inside logs/combined.log.
- */
 app.use(
   morgan(env.NODE_ENV === "production" ? "combined" : "tiny", {
     stream: httpLogStream,
     skip: skipHttpLog,
-  })
+  }),
 );
 
 // maxAge lets the browser cache the preflight rather than re-issuing OPTIONS
@@ -74,21 +50,10 @@ app.use(cors({ origin: true, credentials: true, maxAge: 600 }));
 app.use(express.json());
 
 // Hoisted above the limiters so uptime monitors cannot exhaust the API budget.
-app.get(
-  "/api/health",
-  (_req, res) => res.json({ status: "ok", timestamp: new Date().toISOString() })
+app.get("/api/health", (_req, res) =>
+  res.json({ status: "ok", timestamp: new Date().toISOString() }),
 );
 
-/**
- * Rate limiting, in three tiers. A single global limiter had to serve both a
- * credential-stuffing attempt and a recruiter clicking through their dashboard,
- * so it was necessarily too loose for one and too tight for the other.
- *
- * All of them are keyed by IP. Per-user keying would be fairer — everyone
- * behind one corporate NAT currently shares a bucket — but these are mounted at
- * the app level, above each router's `router.use(auth, ...)`, so req.user does
- * not exist yet.
- */
 const rateLimited = (message) => (_req, res) =>
   // Matches the { success, message, code } envelope the rest of the API uses,
   // so the client's ApiError carries a branchable code rather than a bare
@@ -114,7 +79,9 @@ const writeLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 30,
   skip: (req) => req.method === "GET" || req.method === "HEAD",
-  handler: rateLimited("You are sending changes too quickly. Please slow down."),
+  handler: rateLimited(
+    "You are sending changes too quickly. Please slow down.",
+  ),
 });
 
 // General read traffic. The previous 100 per 15 minutes was never survivable:
@@ -136,13 +103,6 @@ app.use("/api/auth/reset-password", authLimiter);
 app.use("/api/", writeLimiter);
 app.use("/api/", apiLimiter);
 
-/**
- * Unauthenticated static files: company logos and resumes.
- *
- * Verification documents are deliberately NOT here — they live in
- * ./private/verification and are served by /api/documents behind auth and an
- * ownership check. See middleware/upload.js.
- */
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Routes
@@ -160,7 +120,7 @@ app.use(errorHandler);
 const start = async () => {
   await connectDB();
   app.listen(PORT, () =>
-    logger.info("Server listening", { port: PORT, env: env.NODE_ENV })
+    logger.info("Server listening", { port: PORT, env: env.NODE_ENV }),
   );
 };
 

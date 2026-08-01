@@ -7,7 +7,10 @@ import {
   updateAccessibilitySchema,
 } from "../validators/recruiterValidators.js";
 import { deleteVerificationDocSchema } from "../validators/candidateValidators.js";
-import { createJobSchema, updateJobSchema } from "../validators/jobValidators.js";
+import {
+  createJobSchema,
+  updateJobSchema,
+} from "../validators/jobValidators.js";
 import {
   getRecruiterJobs,
   createJob,
@@ -30,6 +33,7 @@ import {
 } from "../controllers/recruiterProfileController.js";
 
 const router = Router();
+//phele requirerole kardiya hai so is safe to go ahead on protected routes
 router.use(auth, requireRole("RECRUITER"));
 
 /**
@@ -43,7 +47,7 @@ router.patch("/profile/logo", updateLogo); // multipart — multer runs in the h
 router.patch(
   "/profile/accessibility",
   validate(updateAccessibilitySchema),
-  updateAccessibility
+  updateAccessibility,
 );
 // Multipart — multer parses the body inside the handler, so docType is
 // validated there rather than by validate() middleware.
@@ -51,18 +55,23 @@ router.patch("/profile/verification-document", uploadRecruiterVerificationDoc);
 router.delete(
   "/profile/verification-document",
   validate(deleteVerificationDocSchema),
-  deleteRecruiterVerificationDoc
+  deleteRecruiterVerificationDoc,
 );
 router.post("/profile/submit", submitProfileForVerification);
 
 router.get("/dashboard/stats", getDashboardStats);
 
-/**
- * Jobs. Writes require an admin-verified recruiter; reads stay open so the
- * dashboard renders while verification is pending.
- */
+//Jobs. Writes require an admin-verified recruiter; reads stay open so the
+// dashboard renders while verification is pending.
+
+//need a verified
 router.get("/jobs", getRecruiterJobs);
-router.post("/jobs", requireVerifiedRecruiter, validate(createJobSchema), createJob);
+router.post(
+  "/jobs",
+  requireVerifiedRecruiter,
+  validate(createJobSchema),
+  createJob,
+);
 router.get("/job/:jobId/applicants", getJobApplicants);
 router.put("/application/:applicationId/shortlist", shortlistApplication);
 router.put("/applications/bulk-action", bulkActionApplications);
@@ -71,7 +80,7 @@ router.put(
   "/job/:jobId",
   requireVerifiedRecruiter,
   validate(updateJobSchema),
-  updateJob
+  updateJob,
 );
 router.delete("/job/:jobId", deleteJob);
 
