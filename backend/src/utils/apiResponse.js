@@ -1,24 +1,12 @@
-/**
- * Shared response helpers.
- *
- * These deliberately preserve the shapes the existing controllers and the
- * frontend already rely on:
- *   success -> { success: true, ...payload }
- *   error   -> { success: false, message, code? }
- * The frontend's api() reads `data.message` on failure, so `message` stays
- * top-level. `code` is additive and lets the client branch on the reason
- * (e.g. RECRUITER_NOT_VERIFIED) instead of matching on message substrings.
- */
-export const ok = (res, payload, status = 200) => res.status(status).json({ success: true, ...payload });
+//the frontend already reads the data.message from the error hence this was done in fail wrapper
+export const ok = (res, payload, status = 200) =>
+  res.status(status).json({ success: true, ...payload });
 
 export const fail = (res, status, message, code) =>
-  res.status(status).json({ success: false, message, ...(code ? { code } : {}) });
-
-/**
- * Throwable error carrying an HTTP status. The existing global errorHandler
- * already reads `err.statusCode`, so these surface correctly without changes
- * there; `code` is picked up by the updated handler.
- */
+  res
+    .status(status)
+    .json({ success: false, message, ...(code ? { code } : {}) });
+//also codes are not needed in every place so no need to add codes in fails
 export class ApiError extends Error {
   constructor(statusCode, message, code) {
     super(message);

@@ -2,12 +2,7 @@ import { ZodError } from "zod";
 import { env } from "../config/env.js";
 import logger from "../utils/logger.js";
 
-export const errorHandler = (
-  err,
-  req,
-  res,
-  next
-) => {
+export const errorHandler = (err, req, res, next) => {
   // Zod errors that escape the validate() middleware (e.g. thrown from a
   // service) are client errors, not 500s.
   if (err instanceof ZodError || err?.name === "ZodError") {
@@ -19,16 +14,7 @@ export const errorHandler = (
     });
     return;
   }
-
-  /**
-   * Mongoose schema validation -> 400.
-   *
-   * The schemas carry real constraints now (enums on the disability and
-   * accessibility vocabularies, length bounds, salary range, rating bounds), so
-   * a bad value that slips past the Zod DTO — an unvalidated route, a service
-   * writing directly — arrives here. Without this it was a 500 for what is
-   * plainly a client error.
-   */
+  //mongoose ka validation error gets here
   if (err?.name === "ValidationError" && err?.errors) {
     res.status(400).json({
       success: false,
@@ -70,14 +56,17 @@ export const errorHandler = (
 
   // Only log genuine server faults; expected 4xx flow-control errors are noise.
   if (statusCode >= 500) {
-    logger.error(`${req.method} ${req.originalUrl} -> ${statusCode}: ${message}`, {
-      // A string, not the Error itself. Error's own properties are
-      // non-enumerable, so passing `err` here serialises to {} in the JSON log
-      // — the one place the stack was actually needed.
-      stack: err.stack,
-      code: err.code,
-      userId: req.user?._id?.toString(),
-    });
+    logger.error(
+      `${req.method} ${req.originalUrl} -> ${statusCode}: ${message}`,
+      {
+        // A string, not the Error itself. Error's own properties are
+        // non-enumerable, so passing `err` here serialises to {} in the JSON log
+        // — the one place the stack was actually needed.
+        stack: err.stack,
+        code: err.code,
+        userId: req.user?._id?.toString(),
+      },
+    );
   }
 
   res.status(statusCode).json({
