@@ -6,6 +6,17 @@
  * from controllers and the hand-rolled `if (!x) res.status(400)` checks, and
  * it is what stops mass-assignment on Job.create / findByIdAndUpdate.
  */
+//validate is just an higher order function here
+/*function validate(schema, source = "body") {
+
+    return function(req, res, next){
+
+        ...
+
+    }
+
+}
+*/
 export const validate =
   (schema, source = "body") =>
   (req, res, next) => {
@@ -29,7 +40,10 @@ export const validate =
     if (source === "body") {
       req.body = result.data;
     } else {
-      Object.defineProperty(req, source, { value: result.data, writable: true });
+      Object.defineProperty(req, source, {
+        value: result.data,
+        writable: true,
+      });
     }
 
     next();

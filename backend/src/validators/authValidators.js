@@ -14,14 +14,8 @@ const baseAccount = {
   password: passwordSchema,
 };
 
-/**
- * Discriminated union on `role` so the required fields differ per role:
- * a recruiter must supply companyName (RecruiterProfile.companyName is
- * required in Mongo), a candidate supplies disability details.
- *
- * ADMIN is absent from the union, so admin self-registration fails validation
- * with a 400 before any handler logic runs.
- */
+//since we use user schema as base for recruiter and candidate there a discrimate union
+//this validates against the role schema
 export const registerSchema = z.discriminatedUnion("role", [
   z.object({
     role: z.literal("CANDIDATE"),

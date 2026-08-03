@@ -19,8 +19,9 @@ import {
  * not filled in yet, so "" arrives for an unset enum. Treating it as "absent"
  * rather than "invalid" is what the old unvalidated handler effectively did.
  */
-const optionalEnum = values => z.preprocess((v) => (v === "" ? undefined : v), z.enum(values).optional());
-
+const optionalEnum = (values) =>
+  z.preprocess((v) => (v === "" ? undefined : v), z.enum(values).optional());
+//this preprocessor runs before validation and if the values recived is empty then subistuite it with undefined taki error na aaye
 export const updateCandidateProfileSchema = z
   .object({
     name: z.string().trim().min(2).max(100).optional(),
@@ -38,7 +39,7 @@ export const updateCandidateProfileSchema = z
     skills: z.array(z.string().trim().min(1).max(60)).max(50).optional(),
   })
   .strict();
-
+//the array z function validates each item in the array
 /** Body accompanying a multipart verification-document upload. */
 export const verificationDocSchema = z.object({
   docType: z.enum([...CANDIDATE_DOC_TYPES, "Other"]),
